@@ -1,44 +1,47 @@
-import NextLogo from "./next-logo";
-import SupabaseLogo from "./supabase-logo";
+import Link from "next/link";
 
 export default function Header() {
   return (
-    <div className="flex flex-col gap-16 items-center">
-      <div className="flex gap-8 justify-center items-center">
-        <a
-          href="https://supabase.com/?utm_source=create-next-app&utm_medium=template&utm_term=nextjs"
-          target="_blank"
-          rel="noreferrer"
-        >
-          <SupabaseLogo />
-        </a>
-        <span className="border-l rotate-45 h-6" />
-        <a href="https://nextjs.org/" target="_blank" rel="noreferrer">
-          <NextLogo />
-        </a>
-      </div>
-      <h1 className="sr-only">Supabase and Next.js Starter Template</h1>
-      <p className="text-3xl lg:text-4xl !leading-tight mx-auto max-w-xl text-center">
-        The fastest way to build apps with{" "}
-        <a
-          href="https://supabase.com/?utm_source=create-next-app&utm_medium=template&utm_term=nextjs"
-          target="_blank"
-          className="font-bold hover:underline"
-          rel="noreferrer"
-        >
-          Supabase
-        </a>{" "}
-        and{" "}
-        <a
-          href="https://nextjs.org/"
-          target="_blank"
-          className="font-bold hover:underline"
-          rel="noreferrer"
-        >
-          Next.js
-        </a>
+    <div className="flex flex-col gap-12 items-center text-center px-6">
+      <h1 className="sr-only">Quality Improvement Mini Tool</h1>
+      
+      {/* Updated Motto */}
+      <p className="text-4xl lg:text-5xl font-bold !leading-tight mx-auto max-w-3xl text-gray-900">
+        Turn <span className="text-blue-600">Complex Data</span> Into{" "}
+        <span className="text-green-600">Actionable Insights</span> Faster
       </p>
-      <div className="w-full p-[1px] bg-gradient-to-r from-transparent via-foreground/10 to-transparent my-8" />
+
+      {/* Decorative Line */}
+      <div className="w-24 h-1 bg-gradient-to-r from-blue-500 via-green-500 to-blue-500 rounded-full my-4" />
+
+      {/* Feature Section */}
+      <div className="flex flex-col lg:flex-row gap-8 lg:gap-16 justify-center items-center w-full max-w-5xl">
+        {/* Focusing Matrix */}
+        <div className="flex flex-col items-center text-center p-6 bg-white shadow-xl rounded-xl w-full lg:w-1/2 border border-gray-200 transition hover:shadow-2xl">
+          <h3 className="text-2xl font-semibold text-blue-600">Focusing Matrix</h3>
+          <p className="text-gray-700 mt-2">
+            A structured tool to help you prioritize tasks based on importance and urgency.
+          </p>
+          <Link href="/focusing-matrix">
+            <button className="mt-4 px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition">
+              Open Focusing Matrix
+            </button>
+          </Link>
+        </div>
+
+        {/* Pareto Chart */}
+        <div className="flex flex-col items-center text-center p-6 bg-white shadow-xl rounded-xl w-full lg:w-1/2 border border-gray-200 transition hover:shadow-2xl">
+          <h3 className="text-2xl font-semibold text-green-600">Pareto Chart</h3>
+          <p className="text-gray-700 mt-2">
+            Identify the most impactful factors in your data and optimize decisions.
+          </p>
+          <Link href="/pareto-chart">
+            <button className="mt-4 px-6 py-3 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 transition">
+              Open Pareto Chart
+            </button>
+          </Link>
+        </div>
+      </div>
     </div>
   );
 }
