@@ -13,8 +13,9 @@ import {
   Legend,
 } from "chart.js";
 import MatrixConfiguration from "./config";
-import { useFocusingMatrixContext } from "./context/context";
-import { MatrixRow } from "./context/types";
+import { useFocusingMatrixContext } from "../context/context";
+import { MatrixRow } from "../context/types";
+import FocusingMatrixFooter from "./footer";
 
 ChartJS.register(
   CategoryScale,
@@ -39,6 +40,7 @@ function Matrix() {
   };
 
   const options = {
+    responsive: true,
     scales: {
       x: {
         title: {
@@ -145,22 +147,33 @@ function Matrix() {
     },
   };
   return (
-    <div className="flex  flex-col md:flex-row h-fit w-full">
-      {/* Left pane */}
-      <MatrixConfiguration />
-
-      {/* Right pane */}
-      <div className="flex-[0.5] p-4">
-        <div className="  bg-white shadow-md rounded-lg p-4 m-5">
-          <h3>{state.title}</h3>
-          <p>{state.description}</p>
-          <div className="h-[300px] w-[300px] lg:h-[400px] lg:w-[400px] xl:h-[500px] xl:w-[500px] 2xl:h-[900px] 2xl:w-[900px]">
-            <Scatter data={chartData} options={options as any} className="" />
+    <div className="flex flex-col min-h-screen w-full">
+      {/* Main Content */}
+      <div className="flex flex-col md:flex-row flex-1 w-full">
+        {/* Left pane - Matrix Configuration */}
+        <div className="flex-1 p-4">
+          <MatrixConfiguration />
+        </div>
+  
+        {/* Right pane - Chart Display */}
+        <div className="flex-1 p-4">
+          <div className="bg-white shadow-md rounded-lg p-4">
+            <h3 className="text-xl font-semibold">{state.title}</h3>
+            <p className="text-gray-600">{state.description}</p>
+            <div className="mt-4">
+              <Scatter data={chartData} options={options as any} />
+            </div>
           </div>
         </div>
       </div>
+  
+      {/* Footer (Now outside the 50/50 layout) */}
+      <div className="w-full border-t bg-gray-100 p-4 flex justify-center">
+        <FocusingMatrixFooter />
+      </div>
     </div>
   );
+  
 }
 
 export default Matrix;

@@ -1,7 +1,8 @@
 import ToolWrapper from "@/components/tool-wrapper";
 import React from "react";
 import { ParetoChartProvider } from "./context/context";
-import ParetoChart from "./pareto";
+import ParetoChart from "./components/pareto";
+import ParetoChartHistory from "./components/history";
 
 function page() {
   return (
@@ -9,8 +10,8 @@ function page() {
       <ToolWrapper
         title="Pareto Chart"
         toolId=""
-        firstComponent={<ParetoChart />}
-      />
+        firstComponent={<ParetoChart />} 
+        secondComponent={<ParetoChartHistory/>}   />
     </ParetoChartProvider>
   );
 }

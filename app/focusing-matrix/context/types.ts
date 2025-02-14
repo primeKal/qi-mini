@@ -1,3 +1,4 @@
+import { Database } from "@/supabase/types/supabase";
 import { Dispatch } from "react";
 
 export interface FocusingMatrixData {
@@ -31,3 +32,12 @@ export interface FocusingMatrixContextType {
     dispatch: Dispatch<any>;
   }
   
+
+// types from supabase 
+//   maintaining both because of the flatness of supabase types
+// example is the rows of a focusing Matrix
+
+
+
+export type FocusingMatrix = Database["public"]["Tables"]["focusing_matrix"]["Row"];
+export type FocusingMatrixRow = Database["public"]["Tables"]["focusing_matrix_rows"]["Row"];

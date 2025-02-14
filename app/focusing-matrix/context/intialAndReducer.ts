@@ -2,8 +2,8 @@ import { UPDATE_TITLE, UPDATE_DESCRIPTION, UPDATE_ROWS, UPDATE_COLUMNS, UPDATE_Q
 import { FocusingMatrixData } from "./types";
 
 export let initialFocusingMatrixData: FocusingMatrixData = {
-  title: "Focusing Matrix",
-  description: "This tool allows you to visualize your scores",
+  title: "",
+  description: "2 dimensional analyzer",
   rows: [],
   columns: {
     firstColumn: "Important",

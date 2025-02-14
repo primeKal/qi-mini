@@ -1,3 +1,4 @@
+import { Database } from "@/supabase/types/supabase";
 import { Dispatch } from "react";
 
 export interface ParetoChartData {
@@ -18,3 +19,8 @@ export interface ParetoChartContextType {
   state: ParetoChartData;
   dispatch: Dispatch<any>;
 }
+
+
+
+export type ParetoChartDb = Database["public"]["Tables"]["pareto_charts"]["Row"];
+export type ParetoChartRowDB = Database["public"]["Tables"]["pareto_chart_rows"]["Row"];

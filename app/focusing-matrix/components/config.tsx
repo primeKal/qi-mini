@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useFocusingMatrixContext } from "./context/context";
-import { updateTitle, updateDescription, updateColumns, editRow, addRow, removeRow } from "./context/actions";
+import { useFocusingMatrixContext } from "../context/context";
+import { updateTitle, updateDescription, updateColumns, editRow, addRow, removeRow } from "../context/actions";
 
 function MatrixConfiguration() {
   const { state, dispatch } = useFocusingMatrixContext();

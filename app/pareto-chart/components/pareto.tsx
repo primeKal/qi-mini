@@ -12,8 +12,9 @@ import {
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
 import annotationPlugin from "chartjs-plugin-annotation";
-import { useParetoChartContext } from "./context/context";
+import { useParetoChartContext } from "../context/context";
 import ParetoChartConfiguration from "./config";
+import ParetoChartFooter from "./footer";
 
 ChartJS.register(
   BarElement,
@@ -166,20 +167,36 @@ const ParetoChart = () => {
   
 
   return (
-    <div className="flex flex-row h-full min-w-[80%] w-full">
-      <ParetoChartConfiguration />
-      <div className="flex-[0.5] m-3 p-3">
-        <h2>{state.sampleTitle}</h2>
-        {state.rows.length > 0 && (
-          <h3>
-            Showing Pareto chart for a sample size of{" "}
-            {state.rows.reduce((sum, row) => sum + row.firstColumnData, 0)}
-          </h3>
-        )}
-        <Bar data={data as any} options={options as any} className="m-3 p-4" />
+    <div className="flex flex-col min-h-screen w-full">
+      {/* Main Content - Keeps 50/50 Layout */}
+      <div className="flex flex-col md:flex-row flex-1 w-full">
+        {/* Left Pane - Configuration */}
+        <div className="flex-1 p-4">
+          <ParetoChartConfiguration />
+        </div>
+  
+        {/* Right Pane - Chart */}
+        <div className="flex-1 p-4">
+          <div className="bg-white shadow-md rounded-lg p-4">
+            <h2 className="text-xl font-semibold">{state.sampleTitle}</h2>
+            {state.rows.length > 0 && (
+              <h3 className="text-gray-600">
+                Showing Pareto chart for a sample size of{" "}
+                {state.rows.reduce((sum, row) => sum + row.firstColumnData, 0)}
+              </h3>
+            )}
+            <Bar data={data as any} options={options as any} className="m-3 p-4" />
+          </div>
+        </div>
+      </div>
+  
+      {/* Footer (Now outside the 50/50 layout) */}
+      <div className="w-full border-t bg-gray-100 p-4 flex items-center justify-center">
+        <ParetoChartFooter />
       </div>
     </div>
   );
+  
 };
 
 export default ParetoChart;

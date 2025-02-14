@@ -5,9 +5,10 @@ interface ToolWrapperProps {
   title: string;
   toolId: string;
   firstComponent: React.ReactNode;
+  secondComponent: React.ReactNode;
 }
 
-function ToolWrapper({ title, firstComponent }: ToolWrapperProps) {
+function ToolWrapper({ title, firstComponent, secondComponent }: ToolWrapperProps) {
   return (
     <div className="flex h-fit w-full justify-center items-center bg-green-100 ">
       <div className="w-full  bg-white shadow-xl rounded-lg">
@@ -43,7 +44,7 @@ function ToolWrapper({ title, firstComponent }: ToolWrapperProps) {
               key="history"
               className="rounded-xl bg-green-50 p-6 "
             >
-              <div>History goes here</div>
+              {secondComponent}
             </TabPanel>
           </TabPanels>
         </TabGroup>

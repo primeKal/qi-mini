@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useParetoChartContext } from "./context/context";
+import { useParetoChartContext } from "../context/context";
 import {
   updateTitle,
   updateDescription,
@@ -11,7 +11,7 @@ import {
   addRow,
   removeRow,
   updateRows,
-} from "./context/actions";
+} from "../context/actions";
 
 function ParetoChartConfiguration() {
   const { state, dispatch } = useParetoChartContext();
