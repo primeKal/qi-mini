@@ -8,6 +8,7 @@ import { createClient } from "@/utils/supabase/client";
 export default function ParetoChartFooter() {
   const { state } = useParetoChartContext();
   const [isSaving, setIsSaving] = useState(false);
+  const [isDownloading, setIsDownloading] = useState(false);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   const supabase = createClient();
@@ -65,11 +66,14 @@ export default function ParetoChartFooter() {
   };
 
   return (
-    <div className="w-full border-t bg-gray-100 p-4 flex justify-center items-center">
+    <div className="w-full border-t bg-gray-100 p-4 flex justify-center items-center gap-3">
       {successMessage && <p className="text-green-600 font-medium">{successMessage}</p>}
 
       <Button onClick={handleSave} disabled={isSaving} className="bg-blue-500 text-white px-6 py-2 rounded">
         {isSaving ? "Saving..." : "Save Pareto Chart"}
+      </Button>
+      <Button onClick={handleSave} disabled={isDownloading} className="bg-blue-500 text-white px-6 py-2 rounded">
+        {isDownloading ? "Downloading..." : "Download Pareto Chart"}
       </Button>
     </div>
   );

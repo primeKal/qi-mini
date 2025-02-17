@@ -2,8 +2,8 @@ import ToolWrapper from "@/components/tool-wrapper";
 import React from "react";
 import Matrix from "./components/matrix";
 import { FocusingMatrixProvider } from "./context/context";
-import FocusingMatrixFooter from "./components/footer";
 import FocusingMatrixHistory from "./components/history";
+import FocusingMatrixInfo from "./components/info-dialogue";
 
 function page() {
   return (
@@ -12,13 +12,14 @@ function page() {
         title="Focusing Matrix"
         toolId=""
         firstComponent={<Matrix />}
-        secondComponent={<FocusingMatrixHistory 
-        //   openEditor={() => {
+        secondComponent={
+          <FocusingMatrixHistory
+          //   openEditor={() => {
 
-        // }}
-        />
-      }
-        
+          // }}
+          />
+        }
+        infoComponent={<FocusingMatrixInfo />}
       />
     </FocusingMatrixProvider>
   );

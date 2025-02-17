@@ -1,3 +1,4 @@
+import FocusingMatrixInfo from "@/app/focusing-matrix/components/info-dialogue";
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react";
 import React from "react";
 
@@ -6,15 +7,24 @@ interface ToolWrapperProps {
   toolId: string;
   firstComponent: React.ReactNode;
   secondComponent: React.ReactNode;
+  infoComponent?: React.ReactNode;
 }
 
-function ToolWrapper({ title, firstComponent, secondComponent }: ToolWrapperProps) {
+function ToolWrapper({
+  title,
+  firstComponent,
+  secondComponent,
+  infoComponent,
+}: ToolWrapperProps) {
   return (
     <div className="flex h-fit w-full justify-center items-center bg-green-100 ">
       <div className="w-full  bg-white shadow-xl rounded-lg">
-        {/* Title */}
-        <h1 className="text-3xl font-bold text-center mb-6">{title}</h1>
-
+        <div className="flex flex-row justify-center p-6 items-center gap-2">
+          {/* Title */}
+          <h1 className="text-3xl font-bold text-center">{title}</h1>
+          {/* Info Icon (Properly Aligned) */}
+          {infoComponent}{" "}
+        </div>
         {/* Tab Group */}
         <TabGroup className="w-full">
           <TabList className="flex gap-6 justify-center">
@@ -34,16 +44,10 @@ function ToolWrapper({ title, firstComponent, secondComponent }: ToolWrapperProp
 
           {/* Tab Panels */}
           <TabPanels className="mt-6  h-screen w-full">
-            <TabPanel
-              key="playground"
-              className="rounded-xl p-6 h-full w-full"
-            >
+            <TabPanel key="playground" className="rounded-xl p-6 h-full w-full">
               {firstComponent}
             </TabPanel>
-            <TabPanel
-              key="history"
-              className="rounded-xl bg-green-50 p-6 "
-            >
+            <TabPanel key="history" className="rounded-xl bg-green-50 p-6 ">
               {secondComponent}
             </TabPanel>
           </TabPanels>

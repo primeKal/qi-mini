@@ -9,6 +9,7 @@ import { Tab } from "@headlessui/react";
 export default function FocusingMatrixFooter() {
   const { state } = useFocusingMatrixContext();
   const [isSaving, setIsSaving] = useState(false);
+  const [isDownloading, setIsDownloading] = useState(false);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   
   const supabase = createClient();
@@ -71,11 +72,14 @@ export default function FocusingMatrixFooter() {
   };
 
   return (
-    <div className="flex justify-between items-center p-4 bg-gray-100 border-t">
+    <div className="flex justify-between items-center p-4 bg-gray-100 border-t gap-3">
       {successMessage && <p className="text-green-600 font-medium">{successMessage}</p>}
       
       <Button onClick={handleSave} disabled={isSaving} className="bg-blue-500 text-white px-6 py-2 rounded">
         {isSaving ? "Saving..." : "Save Focusing Matrix"}
+      </Button>
+      <Button onClick={handleSave} disabled={isDownloading} className="bg-blue-500 text-white px-6 py-2 rounded">
+        {isDownloading ? "Downloading..." : "Download Focusing Matrix"}
       </Button>
     </div>
   );
