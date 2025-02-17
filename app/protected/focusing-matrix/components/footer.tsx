@@ -4,14 +4,15 @@ import { useState } from "react";
 import { useFocusingMatrixContext } from "../context/context";
 import { Button } from "@/components/ui/button";
 import { createClient } from "@/utils/supabase/client"; // Import Supabase client
-import { Tab } from "@headlessui/react";
+import UpgradeAccountModal from "@/components/modals/upgrade-account-modal";
 
 export default function FocusingMatrixFooter() {
   const { state } = useFocusingMatrixContext();
   const [isSaving, setIsSaving] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
-  
+  const [isUpgradeModalOpen, setIsUpgradeModalOpen] = useState(false);
+
   const supabase = createClient();
 
   const handleSave = async () => {
@@ -19,9 +20,29 @@ export default function FocusingMatrixFooter() {
     setSuccessMessage(null);
 
     try {
-      const user = await supabase.auth.getUser();
-      if (!user.data.user) {
+      // Get authenticated user
+      const { data: userData, error: userError } = await supabase.auth.getUser();
+      if (userError || !userData?.user) {
         throw new Error("User not authenticated.");
+      }
+
+      const userId = userData.user.id;
+
+      // Fetch user profile
+      const { data: profile, error: profileError } = await supabase
+        .from("profiles")
+        .select("subscription_tier")
+        .eq("id", userId)
+        .single();
+
+      if (profileError || !profile) {
+        throw new Error("Could not fetch user profile.");
+      }
+
+      // Check subscription tier
+      if (profile.subscription_tier !== "paid") {
+        setIsUpgradeModalOpen(true);
+        return;
       }
 
       // Save the matrix data
@@ -29,7 +50,7 @@ export default function FocusingMatrixFooter() {
         .from("focusing_matrix")
         .insert([
           {
-            created_by: user.data.user.id,
+            created_by: userId,
             title: state.title,
             description: state.description,
             first_column: state.columns.firstColumn,
@@ -61,8 +82,6 @@ export default function FocusingMatrixFooter() {
 
       setSuccessMessage("Focusing Matrix saved successfully!");
       
-      // Switch to the "History" tab after saving
-      
     } catch (err) {
       console.error("Error saving matrix:", err);
       setSuccessMessage("Failed to save matrix.");
@@ -74,13 +93,22 @@ export default function FocusingMatrixFooter() {
   return (
     <div className="flex justify-between items-center p-4 bg-gray-100 border-t gap-3">
       {successMessage && <p className="text-green-600 font-medium">{successMessage}</p>}
-      
+
+      {/* Save Button */}
       <Button onClick={handleSave} disabled={isSaving} className="bg-blue-500 text-white px-6 py-2 rounded">
         {isSaving ? "Saving..." : "Save Focusing Matrix"}
       </Button>
+
+      {/* Download Button */}
       <Button onClick={handleSave} disabled={isDownloading} className="bg-blue-500 text-white px-6 py-2 rounded">
         {isDownloading ? "Downloading..." : "Download Focusing Matrix"}
       </Button>
+
+      {/* Upgrade Account Modal */}
+      <UpgradeAccountModal
+        isOpen={isUpgradeModalOpen}
+        onClose={() => setIsUpgradeModalOpen(false)}
+      />
     </div>
   );
 }

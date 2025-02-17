@@ -5,21 +5,33 @@ import { createClient } from "@/utils/supabase/server";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
+
 export const signUpAction = async (formData: FormData) => {
-  const email = formData.get("email")?.toString();
-  const password = formData.get("password")?.toString();
   const supabase = await createClient();
   const origin = (await headers()).get("origin");
 
-  if (!email || !password) {
-    return encodedRedirect(
-      "error",
-      "/sign-up",
-      "Email and password are required",
-    );
+  // Extract form data
+  const firstName = formData.get("first_name")?.toString();
+  const lastName = formData.get("last_name")?.toString();
+  const email = formData.get("email")?.toString();
+  const password = formData.get("password")?.toString();
+  const confirmPassword = formData.get("confirm_password")?.toString();
+
+  // Validation checks
+  if (!firstName || !lastName || !email || !password || !confirmPassword) {
+    return encodedRedirect("error", "/sign-up", "All fields are required.");
   }
 
-  const { error } = await supabase.auth.signUp({
+  if (password.length < 6) {
+    return encodedRedirect("error", "/sign-up", "Password must be at least 6 characters.");
+  }
+
+  if (password !== confirmPassword) {
+    return encodedRedirect("error", "/sign-up", "Passwords do not match.");
+  }
+
+  // Sign up user
+  const { data, error } = await supabase.auth.signUp({
     email,
     password,
     options: {
@@ -30,13 +42,31 @@ export const signUpAction = async (formData: FormData) => {
   if (error) {
     console.error(error.code + " " + error.message);
     return encodedRedirect("error", "/sign-up", error.message);
-  } else {
-    return encodedRedirect(
-      "success",
-      "/sign-up",
-      "Thanks for signing up! Please check your email for a verification link.",
-    );
   }
+
+  // Save user profile in `profiles` table
+  console.log(data);
+  console.log(firstName, lastName);
+  if (data?.user) {
+    const { error: profileError } = await supabase.from("profiles").insert([
+      {
+        id: data.user.id,
+        first_name: firstName,
+        last_name: lastName,
+      },
+    ]);
+
+    if (profileError) {
+      console.error("Profile creation error:", profileError.message);
+      return encodedRedirect("error", "/sign-up", "User created, but profile setup failed.");
+    }
+  }
+
+  return encodedRedirect(
+    "success",
+    "/sign-up",
+    "Thanks for signing up! Please check your email for a verification link."
+  );
 };
 
 export const signInAction = async (formData: FormData) => {

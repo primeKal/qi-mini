@@ -1,4 +1,4 @@
-import FocusingMatrixInfo from "@/app/focusing-matrix/components/info-dialogue";
+import FocusingMatrixInfo from "@/app/protected/focusing-matrix/components/info-dialogue";
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react";
 import React from "react";
 

@@ -177,6 +177,27 @@ export type Database = {
         }
         Relationships: []
       }
+      profiles: {
+        Row: {
+          first_name: string | null
+          id: string
+          last_name: string | null
+          subscription_tier: Database["public"]["Enums"]["subscription_tier"]
+        }
+        Insert: {
+          first_name?: string | null
+          id: string
+          last_name?: string | null
+          subscription_tier?: Database["public"]["Enums"]["subscription_tier"]
+        }
+        Update: {
+          first_name?: string | null
+          id?: string
+          last_name?: string | null
+          subscription_tier?: Database["public"]["Enums"]["subscription_tier"]
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -185,7 +206,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      subscription_tier: "free" | "paid"
     }
     CompositeTypes: {
       [_ in never]: never

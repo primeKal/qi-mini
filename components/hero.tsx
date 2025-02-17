@@ -1,10 +1,15 @@
-import Link from "next/link";
+"use client";
+
+import { useState } from "react";
+import SignUpPromptModal from "./modals/sign-up-modal";
 
 export default function Header() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
     <div className="flex flex-col gap-12 items-center text-center px-6">
       <h1 className="sr-only">Quality Improvement Mini Tool</h1>
-      
+
       {/* Updated Motto */}
       <p className="text-4xl lg:text-5xl font-bold !leading-tight mx-auto max-w-3xl text-gray-900">
         Turn <span className="text-blue-600">Complex Data</span> Into{" "}
@@ -22,11 +27,12 @@ export default function Header() {
           <p className="text-gray-700 mt-2">
             A structured tool to help you prioritize tasks based on importance and urgency.
           </p>
-          <Link href="/focusing-matrix">
-            <button className="mt-4 px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition">
-              Open Focusing Matrix
-            </button>
-          </Link>
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className="mt-4 px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition"
+          >
+            Open Focusing Matrix
+          </button>
         </div>
 
         {/* Pareto Chart */}
@@ -35,13 +41,17 @@ export default function Header() {
           <p className="text-gray-700 mt-2">
             Identify the most impactful factors in your data and optimize decisions.
           </p>
-          <Link href="/pareto-chart">
-            <button className="mt-4 px-6 py-3 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 transition">
-              Open Pareto Chart
-            </button>
-          </Link>
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className="mt-4 px-6 py-3 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 transition"
+          >
+            Open Pareto Chart
+          </button>
         </div>
       </div>
+
+      {/* Sign-Up Modal */}
+      <SignUpPromptModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </div>
   );
 }
