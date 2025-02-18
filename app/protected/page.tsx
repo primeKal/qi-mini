@@ -49,12 +49,12 @@ export default async function ProtectedPage() {
         </Link>
 
         {/* Run Chart */}
-        <Link href="/protected/run-chart">
+        <Link href="/protected/imr-chart">
           <div className="p-6 bg-white shadow-md rounded-lg hover:shadow-lg transition flex flex-col items-center text-center">
             <Settings size={36} className="text-yellow-500 mb-4" />
-            <h2 className="text-xl font-semibold">Run Chart</h2>
+            <h2 className="text-xl font-semibold">IMR Chart</h2>
             <p className="text-gray-600">
-              Analyze trends and variations in your data over time.
+              Track process variations in your data over time( n=1 ).
             </p>
           </div>
         </Link>

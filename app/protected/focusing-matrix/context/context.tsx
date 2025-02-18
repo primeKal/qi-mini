@@ -2,7 +2,7 @@
 
 import { createContext, Dispatch, useContext, useReducer, useState } from 'react';
 import { focusingMatrixReducer, initialFocusingMatrixData } from './intialAndReducer';
-import { FocusingMatrixContextType, FocusingMatrixData } from './types';
+import { FocusingMatrixContextType } from './types';
 
 
   const FocusingMatrixContext = createContext<FocusingMatrixContextType | undefined>(undefined);
