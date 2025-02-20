@@ -66,7 +66,7 @@ export default function ParetoChartFooter() {
   };
 
   return (
-    <div className="w-full border-t bg-gray-100 p-4 flex justify-center items-center gap-3">
+    <div className="w-full  p-4 flex justify-center items-center gap-3">
       {successMessage && <p className="text-green-600 font-medium">{successMessage}</p>}
 
       <Button onClick={handleSave} disabled={isSaving} className="bg-blue-500 text-white px-6 py-2 rounded">

@@ -1,4 +1,3 @@
-
 export type Json =
   | string
   | number
@@ -114,6 +113,80 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      imr_chart_rows: {
+        Row: {
+          chart_id: string | null
+          created_at: string | null
+          id: string
+          moving_range: number | null
+          timestamp: string
+          value: number
+        }
+        Insert: {
+          chart_id?: string | null
+          created_at?: string | null
+          id?: string
+          moving_range?: number | null
+          timestamp: string
+          value: number
+        }
+        Update: {
+          chart_id?: string | null
+          created_at?: string | null
+          id?: string
+          moving_range?: number | null
+          timestamp?: string
+          value?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "imr_chart_rows_chart_id_fkey"
+            columns: ["chart_id"]
+            isOneToOne: false
+            referencedRelation: "imr_charts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      imr_charts: {
+        Row: {
+          created_at: string | null
+          created_by: string | null
+          description: string | null
+          id: string
+          lcl_i: number | null
+          lcl_mr: number | null
+          mean: number | null
+          title: string
+          ucl_i: number | null
+          ucl_mr: number | null
+        }
+        Insert: {
+          created_at?: string | null
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          lcl_i?: number | null
+          lcl_mr?: number | null
+          mean?: number | null
+          title: string
+          ucl_i?: number | null
+          ucl_mr?: number | null
+        }
+        Update: {
+          created_at?: string | null
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          lcl_i?: number | null
+          lcl_mr?: number | null
+          mean?: number | null
+          title?: string
+          ucl_i?: number | null
+          ucl_mr?: number | null
+        }
+        Relationships: []
       }
       pareto_chart_rows: {
         Row: {

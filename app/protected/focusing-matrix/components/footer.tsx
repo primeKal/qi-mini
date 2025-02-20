@@ -91,7 +91,7 @@ export default function FocusingMatrixFooter() {
   };
 
   return (
-    <div className="flex justify-between items-center p-4 bg-gray-100 border-t gap-3">
+    <div className="flex justify-between items-center p-4  gap-3">
       {successMessage && <p className="text-green-600 font-medium">{successMessage}</p>}
 
       {/* Save Button */}

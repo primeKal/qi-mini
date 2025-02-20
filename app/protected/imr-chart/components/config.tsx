@@ -10,6 +10,7 @@ import { updateTitle, updateDescription, addMeasurement, removeMeasurement } fro
 export default function IMRChartConfiguration() {
   const { state, dispatch } = useIMRChartContext();
   const [editingRow, setEditingRow] = useState<number | null>(null);
+  const [isAddingNew, setIsAddingNew] = useState(false);
   const [newMeasurement, setNewMeasurement] = useState({
     timestamp: "",
     value: "",
@@ -21,17 +22,13 @@ export default function IMRChartConfiguration() {
   };
 
   // Add new measurement
-  const handleAddRow = () => {
+  const handleSaveRow = () => {
     if (!newMeasurement.timestamp.trim() || newMeasurement.value.trim() === "") return;
-
+    
     const newValue = Number(newMeasurement.value);
     if (isNaN(newValue)) return;
 
-    // Calculate moving range
-    const lastValue =
-      state.measurements.length > 0
-        ? state.measurements[state.measurements.length - 1].value
-        : newValue;
+    const lastValue = state.measurements.length > 0 ? state.measurements[state.measurements.length - 1].value : newValue;
     const movingRange = Math.abs(newValue - lastValue);
 
     dispatch(
@@ -42,24 +39,19 @@ export default function IMRChartConfiguration() {
       })
     );
 
-    // Reset input fields
     setNewMeasurement({ timestamp: "", value: "" });
-    setEditingRow(null);
+    setIsAddingNew(false);
+  };
+
+  // Cancel new row entry
+  const handleCancelNewRow = () => {
+    setNewMeasurement({ timestamp: "", value: "" });
+    setIsAddingNew(false);
   };
 
   // Remove measurement
   const handleRemoveClick = (index: number) => {
     dispatch(removeMeasurement(index));
-    setEditingRow(null);
-  };
-
-  // Handle row edit
-  const handleEditClick = (index: number) => {
-    if (editingRow === index) {
-      setEditingRow(null);
-    } else {
-      setEditingRow(index);
-    }
   };
 
   return (
@@ -93,7 +85,7 @@ export default function IMRChartConfiguration() {
       {/* Table for Measurements */}
       <div className="flex flex-col flex-1 p-4 w-full">
         <div className="overflow-x-auto">
-          <table className="min-w-full w-14 bg-white shadow-md rounded-lg">
+          <table className="min-w-full w-full bg-white shadow-md rounded-lg">
             <thead className="bg-gray-100">
               <tr>
                 <th className="px-4 py-2 text-left">Timestamp</th>
@@ -105,71 +97,35 @@ export default function IMRChartConfiguration() {
             <tbody>
               {state.measurements.map((row, index) => (
                 <tr key={`row-${index}`} className="border-t">
-                  <td className="px-4 py-2">
-                    {editingRow === index ? (
-                      <></>
-                    ) : (
-                      new Date(row.timestamp).toLocaleDateString()
-                    )}
-                  </td>
-                  <td className="px-4 py-2">
-                    {editingRow === index ? (
-                      <></>
-                    ) : (
-                      row.value
-                    )}
-                  </td>
+                  <td className="px-4 py-2">{new Date(row.timestamp).toLocaleDateString()}</td>
+                  <td className="px-4 py-2 w-24">{row.value}</td>
                   <td className="px-4 py-2">{row.movingRange}</td>
                   <td className="px-4 py-2 flex gap-2">
-                    <button
-                      onClick={() => handleEditClick(index)}
-                      className={`px-2 py-1 rounded ${editingRow === index ? "bg-green-500" : "bg-blue-500"} text-white`}
-                    >
-                      {editingRow === index ? "Save" : "Edit"}
-                    </button>
-                    <button
-                      onClick={() => handleRemoveClick(index)}
-                      className="bg-red-500 text-white px-2 py-1 rounded"
-                    >
-                      Remove
-                    </button>
+                    <button onClick={() => handleRemoveClick(index)} className="bg-red-500 text-white px-2 py-1 rounded">Remove</button>
                   </td>
                 </tr>
               ))}
-
-              {/* Last Row to Add New Rows */}
-              {editingRow === null && (
+              {isAddingNew && (
                 <tr className="border-t">
                   <td className="px-4 py-2">
-                    <Input
-                      type="date"
-                      value={newMeasurement.timestamp}
-                      onChange={(e) => handleInputChange("timestamp", e.target.value)}
-                      placeholder="Select date"
-                    />
+                    <Input type="date" value={newMeasurement.timestamp} onChange={(e) => handleInputChange("timestamp", e.target.value)} />
                   </td>
-                  <td className="px-4 py-2">
-                    <Input
-                      type="number"
-                      value={newMeasurement.value}
-                      onChange={(e) => handleInputChange("value", e.target.value)}
-                      placeholder="Enter value"
-                    />
+                  <td className="px-4 py-2 w-24">
+                    <Input type="number" value={newMeasurement.value} onChange={(e) => handleInputChange("value", e.target.value)} />
                   </td>
                   <td className="px-4 py-2 text-gray-500">Auto</td>
-                  <td className="px-4 py-2">
-                    <button
-                      onClick={handleAddRow}
-                      className="bg-green-500 text-white px-3 py-1 rounded"
-                    >
-                      Add New Row
-                    </button>
+                  <td className="px-4 py-2 flex gap-2">
+                    <button onClick={handleSaveRow} className="bg-green-500 text-white px-3 py-1 rounded">Save</button>
+                    <button onClick={handleCancelNewRow} className="bg-gray-500 text-white px-3 py-1 rounded">Cancel</button>
                   </td>
                 </tr>
               )}
             </tbody>
           </table>
         </div>
+        {!isAddingNew && (
+          <button onClick={() => setIsAddingNew(true)} className="bg-blue-500 text-white px-4 py-2 rounded mt-3">Add New Row</button>
+        )}
       </div>
     </div>
   );

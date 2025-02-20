@@ -43,7 +43,7 @@ function ToolWrapper({
           </TabList>
 
           {/* Tab Panels */}
-          <TabPanels className="mt-6  h-screen w-full">
+          <TabPanels className="mt-6  w-full">
             <TabPanel key="playground" className="rounded-xl p-6 h-full w-full">
               {firstComponent}
             </TabPanel>
