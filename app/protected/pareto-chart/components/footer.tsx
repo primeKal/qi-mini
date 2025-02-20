@@ -4,18 +4,17 @@ import { useState } from "react";
 import { useParetoChartContext } from "../context/context";
 import { Button } from "@/components/ui/button";
 import { createClient } from "@/utils/supabase/client";
+import toast from "react-hot-toast";
 
 export default function ParetoChartFooter() {
   const { state } = useParetoChartContext();
   const [isSaving, setIsSaving] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
-  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   const supabase = createClient();
 
   const handleSave = async () => {
     setIsSaving(true);
-    setSuccessMessage(null);
 
     try {
       const { data: { user }, error: userError } = await supabase.auth.getUser();
@@ -55,11 +54,12 @@ export default function ParetoChartFooter() {
 
       if (rowError) throw rowError;
 
-      setSuccessMessage("Pareto Chart saved successfully!");
+      toast.success("Pareto Chart saved successfully!");
+
       
     } catch (err) {
       console.error("Error saving Pareto Chart:", err);
-      setSuccessMessage("Failed to save Pareto Chart.");
+      toast.error("Failed to save Pareto Chart.");
     } finally {
       setIsSaving(false);
     }
@@ -67,13 +67,9 @@ export default function ParetoChartFooter() {
 
   return (
     <div className="w-full  p-4 flex justify-center items-center gap-3">
-      {successMessage && <p className="text-green-600 font-medium">{successMessage}</p>}
 
       <Button onClick={handleSave} disabled={isSaving} className="bg-blue-500 text-white px-6 py-2 rounded">
         {isSaving ? "Saving..." : "Save Pareto Chart"}
-      </Button>
-      <Button onClick={handleSave} disabled={isDownloading} className="bg-blue-500 text-white px-6 py-2 rounded">
-        {isDownloading ? "Downloading..." : "Download Pareto Chart"}
       </Button>
     </div>
   );

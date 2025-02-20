@@ -17,7 +17,7 @@ export default function Navbar() {
 
         {/* Desktop Menu */}
         <div className="hidden lg:flex items-center gap-6 text-gray-700">
-          <ToolsDropdown />
+          {/* <ToolsDropdown /> */}
           <Link href="/pricing" className="hover:text-blue-600 transition">Pricing</Link>
           <Link href="/contact" className="hover:text-blue-600 transition">Contact</Link>
         </div>

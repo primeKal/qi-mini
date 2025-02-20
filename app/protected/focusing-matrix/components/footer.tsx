@@ -5,19 +5,18 @@ import { useFocusingMatrixContext } from "../context/context";
 import { Button } from "@/components/ui/button";
 import { createClient } from "@/utils/supabase/client"; // Import Supabase client
 import UpgradeAccountModal from "@/components/modals/upgrade-account-modal";
+import toast from "react-hot-toast";
 
 export default function FocusingMatrixFooter() {
   const { state } = useFocusingMatrixContext();
   const [isSaving, setIsSaving] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
-  const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [isUpgradeModalOpen, setIsUpgradeModalOpen] = useState(false);
 
   const supabase = createClient();
 
   const handleSave = async () => {
     setIsSaving(true);
-    setSuccessMessage(null);
 
     try {
       // Get authenticated user
@@ -80,11 +79,11 @@ export default function FocusingMatrixFooter() {
 
       if (rowError) throw rowError;
 
-      setSuccessMessage("Focusing Matrix saved successfully!");
+      toast.success("Focusing Matrix saved successfully!");
       
     } catch (err) {
-      console.error("Error saving matrix:", err);
-      setSuccessMessage("Failed to save matrix.");
+
+      toast.error("Failed to save Focusing Matrix.");
     } finally {
       setIsSaving(false);
     }
@@ -92,17 +91,12 @@ export default function FocusingMatrixFooter() {
 
   return (
     <div className="flex justify-between items-center p-4  gap-3">
-      {successMessage && <p className="text-green-600 font-medium">{successMessage}</p>}
 
       {/* Save Button */}
       <Button onClick={handleSave} disabled={isSaving} className="bg-blue-500 text-white px-6 py-2 rounded">
         {isSaving ? "Saving..." : "Save Focusing Matrix"}
       </Button>
 
-      {/* Download Button */}
-      <Button onClick={handleSave} disabled={isDownloading} className="bg-blue-500 text-white px-6 py-2 rounded">
-        {isDownloading ? "Downloading..." : "Download Focusing Matrix"}
-      </Button>
 
       {/* Upgrade Account Modal */}
       <UpgradeAccountModal

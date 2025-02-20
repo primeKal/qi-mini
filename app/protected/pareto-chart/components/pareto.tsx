@@ -15,6 +15,8 @@ import annotationPlugin from "chartjs-plugin-annotation";
 import { useParetoChartContext } from "../context/context";
 import ParetoChartConfiguration from "./config";
 import ParetoChartFooter from "./footer";
+import ParetoChartViewModal from "./view-modal";
+import { Toaster } from "react-hot-toast";
 
 ChartJS.register(
   BarElement,
@@ -68,7 +70,6 @@ const ParetoChart = () => {
   };
 
   const cumulativeColors = generateRandomColors(cumulativePercentages.length);
-  const sortedRowsRowsColor = generateRandomColors(sortedRows.length);
 
   const data = {
     labels: sortedRows.map((x) => x.name),
@@ -186,6 +187,7 @@ const ParetoChart = () => {
               </h3>
             )}
             <Bar data={data as any} options={options as any} className="m-3 p-4" />
+            <ParetoChartViewModal data={state} />
           </div>
         </div>
       </div>
@@ -194,6 +196,7 @@ const ParetoChart = () => {
       <div className="w-full border-t p-4 flex items-center justify-center">
         <ParetoChartFooter />
       </div>
+      <Toaster position="top-right" reverseOrder={false} />
     </div>
   );
   

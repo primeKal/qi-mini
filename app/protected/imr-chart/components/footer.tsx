@@ -85,12 +85,9 @@ export default function IMRChartFooter() {
   };
 
   return (
-    <div className="flex justify-between items-center p-4 bg-gray-100 border-t gap-3">
+    <div className="flex justify-between items-center p-4  gap-3">
       <Button onClick={handleSave} disabled={isSaving} className="bg-blue-500 text-white px-6 py-2 rounded">
         {isSaving ? "Saving..." : "Save IMR Chart"}
-      </Button>
-      <Button onClick={handleDownload} disabled={isDownloading} className="bg-green-500 text-white px-6 py-2 rounded">
-        {isDownloading ? "Downloading..." : "Download IMR Chart"}
       </Button>
     </div>
   );

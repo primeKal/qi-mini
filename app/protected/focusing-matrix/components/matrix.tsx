@@ -14,8 +14,10 @@ import {
 } from "chart.js";
 import MatrixConfiguration from "./config";
 import { useFocusingMatrixContext } from "../context/context";
-import { MatrixRow } from "../context/types";
+import { FocusingMatrixData, MatrixRow } from "../context/types";
 import FocusingMatrixFooter from "./footer";
+import FocusingMatrixViewModal from "./view-modal";
+import { Toaster } from "react-hot-toast";
 
 ChartJS.register(
   CategoryScale,
@@ -163,6 +165,7 @@ function Matrix() {
             <div className="mt-4">
               <Scatter data={chartData} options={options as any} />
             </div>
+            <FocusingMatrixViewModal {...(state as FocusingMatrixData)} />
           </div>
         </div>
       </div>
@@ -171,6 +174,7 @@ function Matrix() {
       <div className="w-full border-t  p-4 flex justify-center">
         <FocusingMatrixFooter />
       </div>
+      <Toaster position="top-right" reverseOrder={false} />
     </div>
   );
   
