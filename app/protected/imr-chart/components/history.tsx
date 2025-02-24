@@ -9,35 +9,46 @@ import LoadingSpinner from "@/components/ui/spinner";
 import toast from "react-hot-toast";
 import { useIMRChartContext } from "../contex/contex";
 import { IMRChartData, IMRChartRow } from "../contex/types";
+import IMRChartViewModal from "./view-modal";
+import { getIMRChartDataMappingFromDb } from "../utility/mapping-functions";
 
 export default function IMRChartHistory() {
   const supabase = createClient();
   const { dispatch } = useIMRChartContext();
   const [charts, setCharts] = useState<
-    Database["public"]["Tables"]["imr_charts"]["Row"][]
+  any
   >([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     fetchCharts();
   }, []);
-
+  
   const fetchCharts = async () => {
     setLoading(true);
+  
     const { data, error } = await supabase
       .from("imr_charts")
-      .select("*")
+      .select(
+        `
+        id, title, description, created_at,
+        imr_chart_rows (
+          id, chart_id, timestamp, value, moving_range
+        )
+      `
+      )
       .order("created_at", { ascending: false });
-
+  
     if (error) {
       console.error("Error fetching IMR Charts:", error);
       toast.error("Failed to fetch IMR Charts.");
     } else {
       setCharts(data || []);
     }
-
+  
     setLoading(false);
   };
+  
 
   const handleEdit = async (chartId: string) => {
     toast.loading("Loading IMR Chart...");
@@ -108,7 +119,7 @@ export default function IMRChartHistory() {
         .eq("id", chartId);
       if (deleteChartError) throw deleteChartError;
 
-      setCharts(charts.filter((chart) => chart.id !== chartId));
+      setCharts(charts.filter((chart: any) => chart.id !== chartId));
       toast.dismiss();
       toast.success("IMR Chart deleted successfully!");
     } catch (error) {
@@ -120,6 +131,10 @@ export default function IMRChartHistory() {
     setLoading(false);
   };
 
+  const getIMRChartData = (chart: any): IMRChartData => {
+    return getIMRChartDataMappingFromDb(chart);
+  }
+
   return (
     <div className="p-4 bg-white shadow-lg rounded-lg w-full">
       <h2 className="text-2xl font-semibold mb-4">IMR Chart History</h2>
@@ -130,19 +145,20 @@ export default function IMRChartHistory() {
         <p className="text-gray-600">No IMR Charts found.</p>
       ) : (
         <ul className="divide-y divide-gray-200">
-          {charts.map((chart) => (
+          {charts.map((chart: any) => (
             <li key={chart.id} className="p-3 flex justify-between items-center">
               <div>
                 <h3 className="font-medium">{chart.title}</h3>
                 <p className="text-sm text-gray-600">{chart.description}</p>
               </div>
               <div className="flex gap-3">
-                <Button
+                <IMRChartViewModal  data={getIMRChartData(chart)}/>
+                {/* <Button
                   onClick={() => handleEdit(chart.id)}
                   className="bg-blue-500 text-white px-3 py-1 flex items-center"
                 >
                   <Edit size={16} className="mr-1" /> Edit
-                </Button>
+                </Button> */}
                 <Button
                   onClick={() => handleDelete(chart.id)}
                   className="bg-red-500 text-white px-3 py-1 flex items-center"
@@ -157,3 +173,5 @@ export default function IMRChartHistory() {
     </div>
   );
 }
+
+

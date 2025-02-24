@@ -28,21 +28,21 @@ export default function FocusingMatrixFooter() {
       const userId = userData.user.id;
 
       // Fetch user profile
-      const { data: profile, error: profileError } = await supabase
-        .from("profiles")
-        .select("subscription_tier")
-        .eq("id", userId)
-        .single();
+      // const { data: profile, error: profileError } = await supabase
+      //   .from("profiles")
+      //   .select("subscription_tier")
+      //   .eq("id", userId)
+      //   .single();
 
-      if (profileError || !profile) {
-        throw new Error("Could not fetch user profile.");
-      }
+      // if (profileError || !profile) {
+      //   throw new Error("Could not fetch user profile.");
+      // }
 
-      // Check subscription tier
-      if (profile.subscription_tier !== "paid") {
-        setIsUpgradeModalOpen(true);
-        return;
-      }
+      // // Check subscription tier
+      // if (profile.subscription_tier !== "paid") {
+      //   setIsUpgradeModalOpen(true);
+      //   return;
+      // }
 
       // Save the matrix data
       const { data, error } = await supabase

@@ -4,6 +4,7 @@ import IMRChart from './components/chart'
 import IMRChartConfiguration from './components/config'
 import ToolWrapper from '@/components/tool-wrapper'
 import IMRChartHistory from './components/history'
+import IMRChartInfo from './components/info-dialogue'
 
 function page() {
   return (
@@ -13,7 +14,7 @@ function page() {
         toolId=""
         firstComponent={< IMRChart/>}
         secondComponent={< IMRChartHistory/>}
-        infoComponent={<div></div>}
+        infoComponent={<IMRChartInfo/>}
       />
     </IMRChartProvider>  )
 }

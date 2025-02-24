@@ -27,13 +27,13 @@ ChartJS.register(
   annotationPlugin
 );
 
-function MatrixModal(data: FocusingMatrixData ) {
+function FocusingMatrixViewModal({ data }: { data: FocusingMatrixData } ) {
   const [open, setOpen] = useState(false);
   const pdfRef = useRef(null);
 
   // Chart data configuration
   const chartData = {
-    datasets: data.rows.map((row) => ({
+    datasets: data.rows?.map((row) => ({
       label: row.name,
       data: [{ x: row.firstValue, y: row.secondValue, label: row.name }],
       backgroundColor: row.color,
@@ -204,7 +204,7 @@ function MatrixModal(data: FocusingMatrixData ) {
                       </tr>
                     </thead>
                     <tbody>
-                      {data.rows.map((row, index) => (
+                      {data.rows?.map((row, index) => (
                         <tr key={index} className="border-b">
                           <td className="p-2">{row.name}</td>
                           <td className="p-2">{row.firstValue}</td>
@@ -238,4 +238,4 @@ function MatrixModal(data: FocusingMatrixData ) {
   );
 }
 
-export default MatrixModal;
+export default FocusingMatrixViewModal;

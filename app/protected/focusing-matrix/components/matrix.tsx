@@ -165,7 +165,7 @@ function Matrix() {
             <div className="mt-4">
               <Scatter data={chartData} options={options as any} />
             </div>
-            <FocusingMatrixViewModal {...(state as FocusingMatrixData)} />
+            <FocusingMatrixViewModal data = {state } />
           </div>
         </div>
       </div>

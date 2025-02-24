@@ -7,6 +7,11 @@ import { createClient } from "@/utils/supabase/client";
 import { Trash2, Edit } from "lucide-react";
 import { Database } from "@/supabase/types/supabase";
 import LoadingSpinner from "@/components/ui/spinner";
+import { ParetoChartData } from "../context/types";
+import toast from "react-hot-toast";
+import { getParetoChartDataFromDB } from "../utility/mapping-functions";
+import ParetoChartViewModal from "./view-modal";
+
 
 export default function ParetoChartHistory({
 //   openEditor,
@@ -16,7 +21,7 @@ export default function ParetoChartHistory({
   const supabase = createClient();
   const { dispatch } = useParetoChartContext();
   const [charts, setCharts] = useState<
-    Database["public"]["Tables"]["pareto_charts"]["Row"][]
+  any
   >([]);
   const [loading, setLoading] = useState(false);
 
@@ -26,16 +31,29 @@ export default function ParetoChartHistory({
 
   const fetchCharts = async () => {
     setLoading(true);
+  
     const { data, error } = await supabase
       .from("pareto_charts")
-      .select("*")
+      .select(
+        `
+        id, sample_title, sample_description, sample_size, first_column, sort_order, created_at,
+        pareto_chart_rows (
+          id, chart_id, name, first_column_data
+        )
+      `
+      )
       .order("created_at", { ascending: false });
-
-    if (error) console.error("Error fetching Pareto charts:", error);
-    else setCharts(data || []);
-
+  
+    if (error) {
+      console.error("Error fetching Pareto charts:", error);
+      toast.error("Failed to fetch Pareto charts.");
+    } else {
+      setCharts(data || []);
+    }
+  
     setLoading(false);
   };
+  
 
   const handleEdit = async (chartId: string) => {
     setLoading(true);
@@ -95,11 +113,16 @@ export default function ParetoChartHistory({
     if (error) {
       console.error("Error deleting chart:", error);
     } else {
-      setCharts(charts.filter((chart) => chart.id !== chartId)); // Remove from UI
+      setCharts(charts.filter((chart: any) => chart.id !== chartId)); // Remove from UI
     }
 
     setLoading(false);
   };
+
+  const getParetoChartData = (data: any): ParetoChartData => {
+   const mappedData = getParetoChartDataFromDB(data); 
+   return mappedData;
+  }
 
   return (
     <div className="p-4 bg-white shadow-lg rounded-lg w-full">
@@ -111,7 +134,7 @@ export default function ParetoChartHistory({
         <p className="text-gray-600">No Pareto charts found.</p>
       ) : (
         <ul className="divide-y divide-gray-200">
-          {charts.map((chart) => (
+          {charts.map((chart: any) => (
             <li key={chart.id} className="p-3 flex justify-between items-center">
               <div>
                 <h3 className="font-medium">{chart.sample_title}</h3>
@@ -120,12 +143,13 @@ export default function ParetoChartHistory({
                 </p>
               </div>
               <div className="flex gap-3">
-                <Button
+                <ParetoChartViewModal data={getParetoChartData(chart)} />
+                {/* <Button
                   onClick={() => handleEdit(chart.id)}
                   className="bg-blue-500 text-white px-3 py-1 flex items-center"
                 >
                   <Edit size={16} className="mr-1" /> Edit
-                </Button>
+                </Button> */}
                 <Button
                   onClick={() => handleDelete(chart.id)}
                   className="bg-red-500 text-white px-3 py-1 flex items-center"

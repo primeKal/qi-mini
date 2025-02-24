@@ -7,17 +7,20 @@ import { createClient } from "@/utils/supabase/client";
 import { Trash2, Edit } from "lucide-react";
 import { Database } from "@/supabase/types/supabase";
 import LoadingSpinner from "@/components/ui/spinner";
+import { FocusingMatrixData } from "../context/types";
+import FocusingMatrixViewModal from "./view-modal";
+import { mapFocusingMatrixFromDb } from "../utility/mapping-functions";
 
-export default function FocusingMatrixHistory({
-//   openEditor,
-}: {
-//   openEditor: () => void;
-}) {
+export default function FocusingMatrixHistory(
+  {
+    //   openEditor,
+  }: {
+    //   openEditor: () => void;
+  }
+) {
   const supabase = createClient();
   const { dispatch } = useFocusingMatrixContext();
-  const [matrices, setMatrices] = useState<
-    Database["public"]["Tables"]["focusing_matrix"]["Row"][]
-  >([]);
+  const [matrices, setMatrices] = useState<any>([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -26,13 +29,25 @@ export default function FocusingMatrixHistory({
 
   const fetchMatrices = async () => {
     setLoading(true);
+
     const { data, error } = await supabase
       .from("focusing_matrix")
-      .select("*")
+      .select(
+        `
+        id, title, description, created_at,
+        first_column, second_column, first_quadrant, second_quadrant, third_quadrant, fourth_quadrant,
+        focusing_matrix_rows (
+          id, matrix_id, name, first_value, second_value, color
+        )
+      `
+      )
       .order("created_at", { ascending: false });
 
-    if (error) console.error("Error fetching matrices:", error);
-    else setMatrices(data || []);
+    if (error) {
+      console.error("Error fetching matrices:", error);
+    } else {
+      setMatrices(data || []);
+    }
 
     setLoading(false);
   };
@@ -102,12 +117,17 @@ export default function FocusingMatrixHistory({
     if (error) {
       console.error("Error deleting matrix:", error);
     } else {
-      setMatrices(matrices.filter((m) => m.id !== matrixId)); // Remove from UI
+      setMatrices(matrices.filter((m: any) => m.id !== matrixId)); // Remove from UI
     }
 
     setLoading(false);
   };
 
+  const getMappedData = (matrix: any) => {
+    const mapped = mapFocusingMatrixFromDb(matrix);
+    console.log(mapped);
+    return mapped;
+  };
   return (
     <div className="p-4 bg-white shadow-lg rounded-lg w-full">
       <h2 className="text-2xl font-semibold mb-4">Focusing Matrix History</h2>
@@ -118,19 +138,26 @@ export default function FocusingMatrixHistory({
         <p className="text-gray-600">No matrices found.</p>
       ) : (
         <ul className="divide-y divide-gray-200">
-          {matrices.map((matrix) => (
-            <li key={matrix.id} className="p-3 flex justify-between items-center">
+          {matrices.map((matrix: any) => (
+            <li
+              key={matrix.id}
+              className="p-3 flex justify-between items-center"
+            >
               <div>
                 <h3 className="font-medium">{matrix.title}</h3>
                 <p className="text-sm text-gray-600">{matrix.description}</p>
               </div>
               <div className="flex gap-3">
-                <Button
+                {matrix.focusing_matrix_rows &&
+                matrix.focusing_matrix_rows.length > 0 ? (
+                  <FocusingMatrixViewModal data={getMappedData(matrix)} />
+                ) : null}
+                {/* <Button
                   onClick={() => handleEdit(matrix.id)}
                   className="bg-blue-500 text-white px-3 py-1 flex items-center"
                 >
                   <Edit size={16} className="mr-1" /> Edit
-                </Button>
+                </Button> */}
                 <Button
                   onClick={() => handleDelete(matrix.id)}
                   className="bg-red-500 text-white px-3 py-1 flex items-center"
