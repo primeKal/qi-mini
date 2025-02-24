@@ -64,20 +64,20 @@ export default function ParetoChartInfo() {
                   <div>
                     <h3 className="text-lg font-semibold">What is a Pareto Chart?</h3>
                     <p className="mt-2">
-                      A <strong>Pareto Chart</strong> is a **dual-axis bar and line chart** 
-                      used in **problem-solving and prioritization**. It is based on the **Pareto Principle (80/20 Rule)**, 
-                      which states that **80% of the outcomes come from 20% of the causes**.
+                      A <strong>Pareto Chart</strong> is a dual-axis bar and line chart
+                      used in problem-solving and prioritization. It is based on the Pareto Principle (80/20 Rule), 
+                      which states that 80% of the outcomes come from 20% of the causes.
                     </p>
 
                     <p className="mt-3">
-                      The **bar chart** represents the frequency or count of individual causes, while the 
-                      **line chart** shows the **cumulative percentage** of total occurrences.
+                      The bar chart represents the frequency or count of individual causes, while the 
+                      line chart shows the cumulative percentage of total occurrences.
                     </p>
 
                     <ul className="mt-3 list-disc list-inside space-y-2">
-                      <li><strong>Identifies major contributors:</strong> Helps focus on the **most impactful** problems.</li>
-                      <li><strong>Uses descending order:</strong> The most frequent issues appear **first**.</li>
-                      <li><strong>Highlights the 80% threshold:</strong> Draws a line at **80% cumulative contribution**.</li>
+                      <li><strong>Identifies major contributors:</strong> Helps focus on the most impactful problems.</li>
+                      <li><strong>Uses descending order:</strong> The most frequent issues appear first.</li>
+                      <li><strong>Highlights the 80% threshold:</strong> Draws a line at 80% cumulative contribution.</li>
                     </ul>
                   </div>
 
@@ -87,7 +87,7 @@ export default function ParetoChartInfo() {
                     <ul className="mt-3 list-disc list-inside space-y-2">
                       <li>💾 <strong>Save:</strong> Store your Pareto Chart for later analysis.</li>
                       <li>📂 <strong>Load:</strong> Retrieve and modify previously saved charts.</li>
-                      <li>📊 <strong>Visualize:</strong> Generate a **dynamic Pareto chart** with cumulative percentage.</li>
+                      <li>📊 <strong>Visualize:</strong> Generate a dynamic Pareto chart with cumulative percentage.</li>
                       <li>📥 <strong>Download:</strong> Export your chart for reports or presentations.</li>
                     </ul>
                   </div>

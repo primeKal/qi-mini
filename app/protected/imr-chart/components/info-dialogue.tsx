@@ -65,12 +65,12 @@ export default function IMRChartInfo() {
                   <div>
                     <h3 className="text-lg font-semibold">What is an I-MR Chart?</h3>
                     <p className="mt-2">
-                      The **I-MR (Individual Moving Range) Chart** is a **statistical process control tool** 
-                      used to monitor process variation **when data is collected individually** rather than in groups.
+                      The I-MR (Individual Moving Range) Chart is a statistical process control tool
+                      used to monitor process variation when data is collected individually rather than in groups.
                     </p>
 
                     <p className="mt-3">
-                      It consists of **two components**:
+                      It consists of two components:
                     </p>
 
                     <ul className="mt-3 list-disc list-inside space-y-2">
@@ -85,7 +85,7 @@ export default function IMRChartInfo() {
                     <ul className="mt-3 list-disc list-inside space-y-2">
                       <li>💾 <strong>Save:</strong> Store your IMR Chart for future analysis.</li>
                       <li>📂 <strong>Load:</strong> Retrieve previously saved charts.</li>
-                      <li>📊 <strong>Visualize:</strong> View **real-time control limits and process variation**.</li>
+                      <li>📊 <strong>Visualize:</strong> View real-time control limits and process variation.</li>
                       <li>📥 <strong>Download:</strong> Export your chart for offline reporting.</li>
                     </ul>
                   </div>

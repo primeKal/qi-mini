@@ -65,12 +65,12 @@ export default function FocusingMatrixInfo() {
                   <div>
                     <h3 className="text-lg font-semibold">What is a Focusing Matrix?</h3>
                     <p className="mt-2">
-                      The <strong>Focusing Matrix</strong> is a **2D decision-making tool** that helps in **prioritization** 
-                      by organizing ideas, tasks, or data points into **four quadrants** based on two chosen dimensions.
+                      The <strong>Focusing Matrix</strong> is a 2D decision-making tool that helps in prioritization
+                      by organizing ideas, tasks, or data points into four quadrants based on two chosen dimensions.
                     </p>
 
                     <p className="mt-3">
-                      You can customize the **column and row labels** to match your needs. Some common examples:
+                      You can customize the column and row labels to match your needs. Some common examples:
                     </p>
 
                     <ul className="mt-3 list-disc list-inside space-y-2">
@@ -87,7 +87,7 @@ export default function FocusingMatrixInfo() {
                     <ul className="mt-3 list-disc list-inside space-y-2">
                       <li>💾 <strong>Save:</strong> Store your Focusing Matrix in the database for future reference.</li>
                       <li>📂 <strong>Load:</strong> Retrieve and edit saved matrices from your history.</li>
-                      <li>📊 <strong>Visualize:</strong> Display a **scatter plot** representation of your matrix.</li>
+                      <li>📊 <strong>Visualize:</strong> Display a scatter plot representation of your matrix.</li>
                       <li>📥 <strong>Download:</strong> Export your matrix data for external use.</li>
                     </ul>
                   </div>
