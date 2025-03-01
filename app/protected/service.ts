@@ -1,6 +1,5 @@
 import { createClient } from "@/utils/supabase/server";
 import { User } from "@supabase/supabase-js";
-import { Database } from "@/supabase/types/supabase";
 
 export interface Profile {
   id: string;
