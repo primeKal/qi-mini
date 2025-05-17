@@ -21,6 +21,7 @@ import {
   getMovingChartData,
 } from "../utility/chart-config";
 import IMRChartViewModal from "./view-modal";
+import AnalyzeWithAI from "@/components/open-ai/analyze-with-ai";
 
 ChartJS.register(
   LineElement,
@@ -137,6 +138,7 @@ export default function IMRChart() {
                 </div>
               </div>
               <IMRChartViewModal data={state} />
+              <AnalyzeWithAI data={state} />
             </>
           ) : (
             <p className="text-gray-500">

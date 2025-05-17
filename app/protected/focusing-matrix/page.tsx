@@ -13,11 +13,7 @@ function page() {
         toolId=""
         firstComponent={<Matrix />}
         secondComponent={
-          <FocusingMatrixHistory
-          //   openEditor={() => {
-
-          // }}
-          />
+          <FocusingMatrixHistory/>
         }
         infoComponent={<FocusingMatrixInfo />}
       />

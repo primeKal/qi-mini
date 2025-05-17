@@ -17,6 +17,7 @@ import ParetoChartConfiguration from "./config";
 import ParetoChartFooter from "./footer";
 import ParetoChartViewModal from "./view-modal";
 import { Toaster } from "react-hot-toast";
+import AnalyzeWithAI from "@/components/open-ai/analyze-with-ai";
 
 ChartJS.register(
   BarElement,
@@ -188,6 +189,7 @@ const ParetoChart = () => {
             )}
             <Bar data={data as any} options={options as any} className="m-3 p-4" />
             <ParetoChartViewModal data={state} />
+            <AnalyzeWithAI data={state} />
           </div>
         </div>
       </div>

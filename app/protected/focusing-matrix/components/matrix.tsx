@@ -18,6 +18,7 @@ import { FocusingMatrixData, MatrixRow } from "../context/types";
 import FocusingMatrixFooter from "./footer";
 import FocusingMatrixViewModal from "./view-modal";
 import { Toaster } from "react-hot-toast";
+import AnalyzeWithAI from "@/components/open-ai/analyze-with-ai";
 
 ChartJS.register(
   CategoryScale,
@@ -166,6 +167,7 @@ function Matrix() {
               <Scatter data={chartData} options={options as any} />
             </div>
             <FocusingMatrixViewModal data = {state } />
+            <AnalyzeWithAI data={state}/>
           </div>
         </div>
       </div>
