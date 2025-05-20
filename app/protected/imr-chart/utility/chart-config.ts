@@ -1,9 +1,8 @@
 import { IMRChartData } from "../contex/types";
 
 export const calculateIMRChartValues = ( data : IMRChartData) => {
-      // **Extracting Values for Plotting**
   const timestamps = data.measurements.map((m) =>
-    new Date(m.timestamp).toLocaleTimeString()
+    m.timestamp
   );
   const values = data.measurements.map((m) => m.value);
   const movingRanges = (data.measurements || [])

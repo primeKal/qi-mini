@@ -2,7 +2,15 @@ import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useFocusingMatrixContext } from "../context/context";
-import { updateTitle, updateDescription, updateColumns, editRow, addRow, removeRow } from "../context/actions";
+import {
+  updateTitle,
+  updateDescription,
+  updateColumns,
+  editRow,
+  addRow,
+  removeRow,
+} from "../context/actions";
+import toast from "react-hot-toast";
 
 function MatrixConfiguration() {
   const { state, dispatch } = useFocusingMatrixContext();
@@ -17,12 +25,20 @@ function MatrixConfiguration() {
     dispatch(updateDescription(e.target.value));
   };
 
-  const handleColumnChange = (columnKey: "firstColumn" | "secondColumn", value: string) => {
+  const handleColumnChange = (
+    columnKey: "firstColumn" | "secondColumn",
+    value: string
+  ) => {
     dispatch(updateColumns({ [columnKey]: value }));
   };
 
-  const handleRowChange = (index: number, key: "name" | "firstValue" | "secondValue" | "color", value: string) => {
-    const updatedValue = key === "color" || key === "name" ? value : Number(value);
+  const handleRowChange = (
+    index: number,
+    key: "name" | "firstValue" | "secondValue" | "color",
+    value: string
+  ) => {
+    const updatedValue =
+      key === "color" || key === "name" ? value : Number(value);
     if (key !== "color" && key !== "name" && isNaN(Number(value))) return;
 
     dispatch(editRow(index, { [key]: updatedValue }));
@@ -30,6 +46,17 @@ function MatrixConfiguration() {
 
   const handleEditClick = (index: number) => {
     if (editingRow === index) {
+      const row = state.rows[index];
+      const isNameValid = row.name.trim() !== "";
+      const isFirstValid = row.firstValue >= -10 && row.firstValue <= 10;
+      const isSecondValid = row.secondValue >= -10 && row.secondValue <= 10;
+
+      console.log("Row values:", row.firstValue, row.secondValue);
+      console.log("Is first value valid?", isFirstValid);
+      if (!isFirstValid || !isSecondValid || !isNameValid) {
+        toast.error("Values must be between -10 and 10.Name cannot be empty");
+        return; // Stop saving if values are invalid
+      }
       setEditingRow(null); // Save changes and exit edit mode
     } else {
       setEditingRow(index); // Enter edit mode
@@ -55,17 +82,37 @@ function MatrixConfiguration() {
       <div className="flex flex-col m-2 p-3 gap-2">
         {/* Title Input */}
         <Label htmlFor="title">Title</Label>
-        <Input name="title" value={state.title} onChange={handleTitleChange} placeholder="Focusing Matrix" required />
+        <Input
+          name="title"
+          value={state.title}
+          onChange={handleTitleChange}
+          placeholder="Focusing Matrix"
+          required
+        />
         <br />
 
         {/* Description Input */}
         <Label htmlFor="description">Description</Label>
-        <Input name="description" value={state.description} onChange={handleDescriptionChange} placeholder="Enter description" required />
+        <Input
+          name="description"
+          value={state.description}
+          onChange={handleDescriptionChange}
+          placeholder="Enter description"
+          required
+        />
 
         <Label htmlFor="firstColumn">First Column</Label>
-        <Input value={state.columns.firstColumn} onChange={(e) => handleColumnChange("firstColumn", e.target.value)} className="w-full p-1" />
+        <Input
+          value={state.columns.firstColumn}
+          onChange={(e) => handleColumnChange("firstColumn", e.target.value)}
+          className="w-full p-1"
+        />
         <Label htmlFor="secondColumn">Second Column</Label>
-        <Input value={state.columns.secondColumn} onChange={(e) => handleColumnChange("secondColumn", e.target.value)} className="w-full p-1" />
+        <Input
+          value={state.columns.secondColumn}
+          onChange={(e) => handleColumnChange("secondColumn", e.target.value)}
+          className="w-full p-1"
+        />
       </div>
 
       {/* Table for Matrix */}
@@ -75,8 +122,12 @@ function MatrixConfiguration() {
             <thead className="bg-gray-100">
               <tr>
                 <th className="px-4 py-2 text-left">Name</th>
-                <th className="px-4 py-2 text-left">{state.columns.firstColumn}</th>
-                <th className="px-4 py-2 text-left">{state.columns.secondColumn}</th>
+                <th className="px-4 py-2 text-left">
+                  {state.columns.firstColumn}
+                </th>
+                <th className="px-4 py-2 text-left">
+                  {state.columns.secondColumn}
+                </th>
                 <th className="px-4 py-2 text-left">Color</th>
                 <th className="px-4 py-2 text-left">Actions</th>
               </tr>
@@ -89,7 +140,9 @@ function MatrixConfiguration() {
                       <Input
                         type="text"
                         value={row.name}
-                        onChange={(e) => handleRowChange(index, "name", e.target.value)}
+                        onChange={(e) =>
+                          handleRowChange(index, "name", e.target.value)
+                        }
                         className="w-full min-w-[60px] p-1"
                       />
                     ) : (
@@ -101,7 +154,12 @@ function MatrixConfiguration() {
                       <Input
                         type="number"
                         value={row.firstValue}
-                        onChange={(e) => handleRowChange(index, "firstValue", e.target.value)}
+                        min={-10}
+                        max={10}
+                        step={1}
+                        onChange={(e) =>
+                          handleRowChange(index, "firstValue", e.target.value)
+                        }
                         className="w-full min-w-[60px] p-1"
                       />
                     ) : (
@@ -113,7 +171,9 @@ function MatrixConfiguration() {
                       <Input
                         type="number"
                         value={row.secondValue}
-                        onChange={(e) => handleRowChange(index, "secondValue", e.target.value)}
+                        onChange={(e) =>
+                          handleRowChange(index, "secondValue", e.target.value)
+                        }
                         className="w-full min-w-[60px] p-1"
                       />
                     ) : (
@@ -124,12 +184,17 @@ function MatrixConfiguration() {
                     {editingRow === index ? (
                       <Input
                         type="color"
-                        value={row.color}
-                        onChange={(e) => handleRowChange(index, "color", e.target.value)}
+                        value={row.color ?? "#000000"}
+                        onChange={(e) =>
+                          handleRowChange(index, "color", e.target.value)
+                        }
                         className="w-full min-w-[60px] p-1"
                       />
                     ) : (
-                      <div className="w-6 h-6 rounded-full border border-gray-400" style={{ backgroundColor: row.color }}></div>
+                      <div
+                        className="w-6 h-6 rounded-full border border-gray-400"
+                        style={{ backgroundColor: row.color }}
+                      ></div>
                     )}
                   </td>
                   <td className="px-4 py-2 flex gap-2">
@@ -139,7 +204,10 @@ function MatrixConfiguration() {
                     >
                       {editingRow === index ? "Save" : "Edit"}
                     </button>
-                    <button onClick={() => handleRemoveClick(index)} className="bg-red-500 text-white px-2 py-1 rounded">
+                    <button
+                      onClick={() => handleRemoveClick(index)}
+                      className="bg-red-500 text-white px-2 py-1 rounded"
+                    >
                       Remove
                     </button>
                   </td>
@@ -148,7 +216,10 @@ function MatrixConfiguration() {
               {/* Last Row to Add New Rows */}
               <tr className="border-t">
                 <td colSpan={5} className="text-center py-2">
-                  <button onClick={handleAddRow} className="bg-green-500 text-white px-4 py-2 rounded">
+                  <button
+                    onClick={handleAddRow}
+                    className="bg-green-500 text-white px-4 py-2 rounded"
+                  >
                     + Add New Row
                   </button>
                 </td>
@@ -157,7 +228,9 @@ function MatrixConfiguration() {
           </table>
         </div>
 
-        <p className="text-sm text-gray-600 mt-4">* Importance and Urgency are on a scale from -10 to 10</p>
+        <p className="text-sm text-gray-600 mt-4">
+          * Importance and Urgency are on a scale from -10 to 10
+        </p>
       </div>
     </div>
   );

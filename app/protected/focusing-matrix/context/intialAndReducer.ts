@@ -30,7 +30,7 @@ export const focusingMatrixReducer = (state: FocusingMatrixData, action: any): F
     case "UPDATE_QUADRANT_NAMES":
       return { ...state, quadrantNames: { ...state.quadrantNames, ...action.payload } };
     case "ADD_ROW":
-      return { ...state, rows: [...state.rows, { name: "", firstValue: 0, secondValue: 0, color: "#ffffff"  }] };
+      return { ...state, rows: [...state.rows, { name: "", firstValue: 0, secondValue: 0, color: "#000000"  }] };
     case "EDIT_ROW":
       return {
         ...state,

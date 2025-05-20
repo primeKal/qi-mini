@@ -171,7 +171,7 @@ const ParetoChart = () => {
   return (
     <div className="flex flex-col  w-full">
       {/* Main Content - Keeps 50/50 Layout */}
-      <div className="flex flex-col md:flex-row flex-1 w-full">
+      <div className="flex flex-col lg:flex-row flex-1 w-full">
         {/* Left Pane - Configuration */}
         <div className="flex-1 p-4">
           <ParetoChartConfiguration />

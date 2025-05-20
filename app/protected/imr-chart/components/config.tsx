@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { useIMRChartContext } from "../contex/contex";
 import { updateTitle, updateDescription, addMeasurement, removeMeasurement } from "../contex/actions";
+import toast from "react-hot-toast";
 
 export default function IMRChartConfiguration() {
   const { state, dispatch } = useIMRChartContext();
@@ -23,7 +24,10 @@ export default function IMRChartConfiguration() {
 
   // Add new measurement
   const handleSaveRow = () => {
-    if (!newMeasurement.timestamp.trim() || newMeasurement.value.trim() === "") return;
+    if (!newMeasurement.timestamp.trim() || newMeasurement.value.trim() === "") {
+      toast.error("Please fill in all fields.");
+      return;
+    };
     
     const newValue = Number(newMeasurement.value);
     if (isNaN(newValue)) return;
@@ -88,33 +92,33 @@ export default function IMRChartConfiguration() {
           <table className="min-w-full w-full bg-white shadow-md rounded-lg">
             <thead className="bg-gray-100">
               <tr>
-                <th className="px-4 py-2 text-left">Timestamp</th>
-                <th className="px-4 py-2 text-left">Value</th>
-                <th className="px-4 py-2 text-left">Moving Range</th>
-                <th className="px-4 py-2 text-left">Actions</th>
+                <th className="px-2 py-2 text-left">Timestamp</th>
+                <th className="px-2 py-2 text-left">Value</th>
+                <th className="px-2 py-2 text-left">Moving Range</th>
+                <th className="px-2 py-2 text-left">Actions</th>
               </tr>
             </thead>
             <tbody>
               {state.measurements.map((row, index) => (
                 <tr key={`row-${index}`} className="border-t">
-                  <td className="px-4 py-2">{new Date(row.timestamp).toLocaleDateString()}</td>
-                  <td className="px-4 py-2 w-24">{row.value}</td>
-                  <td className="px-4 py-2">{row.movingRange}</td>
-                  <td className="px-4 py-2 flex gap-2">
+                  <td className="px-2 py-2">{new Date(row.timestamp).toLocaleDateString()}</td>
+                  <td className="px-2 py-2 w-24">{row.value}</td>
+                  <td className="px-2 py-2">{row.movingRange}</td>
+                  <td className="px-2 py-2 flex gap-2">
                     <button onClick={() => handleRemoveClick(index)} className="bg-red-500 text-white px-2 py-1 rounded">Remove</button>
                   </td>
                 </tr>
               ))}
               {isAddingNew && (
                 <tr className="border-t">
-                  <td className="px-4 py-2">
+                  <td className="px-2 py-2">
                     <Input type="date" value={newMeasurement.timestamp} onChange={(e) => handleInputChange("timestamp", e.target.value)} />
                   </td>
-                  <td className="px-4 py-2 w-24">
+                  <td className="px-2 py-2 w-40 min-w-[100px]">
                     <Input type="number" value={newMeasurement.value} onChange={(e) => handleInputChange("value", e.target.value)} />
                   </td>
-                  <td className="px-4 py-2 text-gray-500">Auto</td>
-                  <td className="px-4 py-2 flex gap-2">
+                  <td className="px-2 py-2 text-gray-500">Auto</td>
+                  <td className="px-2 py-2 flex gap-2">
                     <button onClick={handleSaveRow} className="bg-green-500 text-white px-3 py-1 rounded">Save</button>
                     <button onClick={handleCancelNewRow} className="bg-gray-500 text-white px-3 py-1 rounded">Cancel</button>
                   </td>

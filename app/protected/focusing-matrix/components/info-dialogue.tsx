@@ -7,7 +7,7 @@ import { X, HelpCircle } from "lucide-react";
 import React from "react";
 
 export default function FocusingMatrixInfo() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
 
   return (
     <>

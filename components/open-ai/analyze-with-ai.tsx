@@ -81,7 +81,7 @@ export default function AnalyzeWithAI({ data }: { data: any }) {
       {showUpgrade && (
         <div className="p-4 bg-yellow-100 text-yellow-800 rounded-lg mt-4">
           <p className="text-sm font-semibold">Upgrade Required</p>
-          <p className="text-sm">Subscribe to unlock AI analysis.</p>
+          <p className="text-sm">Subscribe to unlock AI analysis. Or fill in the contact us form.</p>
         </div>
       )}
     </div>

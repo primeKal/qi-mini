@@ -36,7 +36,7 @@ export default function ParetoChartHistory({
       .from("pareto_charts")
       .select(
         `
-        id, sample_title, sample_description, sample_size, first_column, sort_order, created_at,
+        id, sample_title, sample_description, sample_size, first_column, created_at,
         pareto_chart_rows (
           id, chart_id, name, first_column_data
         )

@@ -41,6 +41,8 @@ function Matrix() {
       pointRadius: 8,
     })),
   };
+  const responsiveFontSize = () =>
+  typeof window !== "undefined" && window.innerWidth < 768 ? 10 : 14;
 
   const options = {
     responsive: true,
@@ -92,7 +94,7 @@ function Matrix() {
             backgroundColor: "rgba(0,0,0,0.0)",
             color: "black",
             font: {
-              size: 14,
+              size: responsiveFontSize(),
               weight: "bold",
             },
           },
@@ -106,7 +108,7 @@ function Matrix() {
             backgroundColor: "rgba(0,0,0,0.0)",
             color: "black",
             font: {
-              size: 14,
+              size: responsiveFontSize(),
               weight: "bold",
             },
           },
@@ -120,7 +122,7 @@ function Matrix() {
             backgroundColor: "rgba(0,0,0,0.0)",
             color: "black",
             font: {
-              size: 14,
+              size: responsiveFontSize,
               weight: "bold",
             },
           },
@@ -134,7 +136,7 @@ function Matrix() {
             backgroundColor: "rgba(0,0,0,0.0)",
             color: "black",
             font: {
-              size: 14,
+              size: responsiveFontSize(),
               weight: "bold",
             },
           },
@@ -152,7 +154,7 @@ function Matrix() {
   return (
     <div className="flex flex-col  w-full">
       {/* Main Content */}
-      <div className="flex flex-col md:flex-row flex-1 w-full">
+      <div className="flex flex-col lg:flex-row flex-1 w-full">
         {/* Left pane - Matrix Configuration */}
         <div className="flex-1 p-4">
           <MatrixConfiguration />

@@ -12,6 +12,7 @@ import {
   removeRow,
   updateRows,
 } from "../context/actions";
+import toast from "react-hot-toast";
 
 function ParetoChartConfiguration() {
   const { state, dispatch } = useParetoChartContext();
@@ -42,6 +43,13 @@ function ParetoChartConfiguration() {
 
   const handleSaveRow = (index: number) => {
     if (tempRowData) {
+      console.log("Saving row data:", tempRowData);
+      const isNameValid = tempRowData.name.trim() !== "";
+      const isFirstValid = tempRowData.firstColumnData >= 0;
+      if(!isFirstValid || !isNameValid) {
+        toast.error("Values must be greater than or equal to 0. Name cannot be empty");
+        return;
+      }
       const updatedRows = [...state.rows];
       updatedRows[index] = { ...tempRowData };
       dispatch(updateRows(updatedRows));

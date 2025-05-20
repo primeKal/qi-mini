@@ -60,7 +60,7 @@ export default async function ProtectedPage() {
         </Link>
 
         {/* Fishbone Diagram */}
-        <Link href="/protected/fishbone-diagram">
+        {/* <Link href="/protected/fishbone-diagram">
           <div className="p-6 bg-white shadow-md rounded-lg hover:shadow-lg transition flex flex-col items-center text-center">
             <LayoutGrid size={36} className="text-purple-500 mb-4" />
             <h2 className="text-xl font-semibold">Fishbone Diagram</h2>
@@ -68,7 +68,7 @@ export default async function ProtectedPage() {
               Identify root causes of issues systematically.
             </p>
           </div>
-        </Link>
+        </Link> */}
       </div>
     </div>
   );
