@@ -134,7 +134,7 @@ function IMRChartViewModal({ data }: { data: IMRChartData }) {
                       {data.measurements.map((m, index) => (
                         <tr key={index} className="border-b">
                           <td className="p-2">
-                            {new Date(m.timestamp).toLocaleTimeString()}
+                            {m.timestamp}
                           </td>
                           <td className="p-2">{m.value.toFixed(2)}</td>
                         </tr>

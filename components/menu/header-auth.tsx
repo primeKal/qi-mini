@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import { createClient } from "@/utils/supabase/server";
+import { getProfile } from "@/app/protected/service";
 
 export default async function AuthButton() {
   const supabase = await createClient();
@@ -11,6 +12,9 @@ export default async function AuthButton() {
   const {
     data: { user },
   } = await supabase.auth.getUser();
+
+  const profile = await getProfile(user? user.id: "");
+  
 
   if (!hasEnvVars) {
     return (
@@ -35,7 +39,7 @@ export default async function AuthButton() {
 
   return user ? (
     <div className="flex items-center gap-4 text-gray-700">
-      <span className="font-medium">Hey, {user.email}!</span>
+      <span className="font-medium">Hey, {profile? profile.first_name : user.email}!</span>
       <form action={signOutAction}>
         <Button type="submit" variant="outline" className="hover:bg-gray-100">
           Sign out

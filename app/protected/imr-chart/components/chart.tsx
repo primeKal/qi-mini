@@ -55,31 +55,51 @@ export default function IMRChart() {
     allTheData.UCL_MR
   )
 
-  const options = {
-    responsive: true,
-    maintainAspectRatio: false,
-    scales: {
-      y: {
-        beginAtZero: false,
+const options = {
+  responsive: true,
+  maintainAspectRatio: false,
+  scales: {
+    x: {
+      type: 'category',
+      title: {
+        display: true,
+        text: 'Date',
+      },
+      ticks: {
+        autoSkip: true,
+        maxTicksLimit: 10,
+        // callback: function (val: any, index: number, ticks: any): any {
+        //   // const label = this.getLabelForValue(val);
+        //   console.log(val);
+        //   return val; // Or format here if needed
+        // },
       },
     },
-    plugins: {
-      legend: {
+    y: {
+      beginAtZero: false,
+      title: {
         display: true,
-        position: "top",
+        text: 'Value',
       },
-      tooltip: {
-        enabled: true,
-        mode: "index",
-        intersect: false,
-        callbacks: {
-          label: (context: any) => {
-            return `${context.dataset.label}: ${context.raw.toFixed(2)}`;
-          },
+    },
+  },
+  plugins: {
+    legend: {
+      display: true,
+      position: "top",
+    },
+    tooltip: {
+      enabled: true,
+      mode: "index",
+      intersect: false,
+      callbacks: {
+        label: (context: any) => {
+          return `${context.dataset.label}: ${context.raw.toFixed(2)}`;
         },
       },
     },
-  };
+  },
+};
 
   return (
     <div>
