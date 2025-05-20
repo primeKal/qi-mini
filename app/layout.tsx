@@ -52,7 +52,7 @@ export default function RootLayout({
                 <p className="text-gray-600 text-sm">
                   Powered by{" "}
                   <span className="font-semibold text-blue-600">
-                    Kaleb Tech
+                    Heran Tech
                   </span>
                 </p>
                 <ThemeSwitcher />

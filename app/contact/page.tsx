@@ -34,18 +34,39 @@ export default function ContactUs() {
     }
 
     setLoading(true);
-    const { error } = await supabase.from("contact_messages").insert([
-      { email, name, message },
-    ]);
+
+    // Insert message to Supabase
+    const { error } = await supabase
+      .from("contact_messages")
+      .insert([{ email, name, message }]);
 
     if (error) {
       toast.error("Failed to send message. Try again later.");
       console.error("Error submitting contact form:", error);
+      setLoading(false);
+      return;
+    }
+
+    // Call API to send email
+    const response = await fetch("/api/send-contact-email", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name, email, message }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok || !data.success) {
+      toast.error("Failed to send email notification.");
+      console.error("Email sending error:", data.error);
     } else {
       toast.success("Message sent successfully!");
       setName("");
       setMessage("");
     }
+
     setLoading(false);
   };
 
@@ -99,7 +120,11 @@ export default function ContactUs() {
         </div>
 
         {/* Submit Button */}
-        <Button type="submit" disabled={loading} className="w-full bg-blue-600 text-white">
+        <Button
+          type="submit"
+          disabled={loading}
+          className="w-full bg-blue-600 text-white"
+        >
           {loading ? "Sending..." : "Send Message"}
         </Button>
       </form>
